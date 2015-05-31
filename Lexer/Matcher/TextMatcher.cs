@@ -4,9 +4,11 @@
     {
         public Token Match(int lineNumber, int startPosition, string value)
         {
-            var comment = value.Trim();
+            if (string.IsNullOrWhiteSpace(value)) return null;
 
-            return new Token(TokenType.Text, lineNumber, startPosition, startPosition + comment.Length, comment);
+            var result = value.Trim();
+
+            return new Token(TokenType.Text, lineNumber, startPosition, result.Length, result);
         }
     }
 }

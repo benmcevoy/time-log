@@ -66,29 +66,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Day.cs" />
+    <Compile Include="Data\Repository.cs" />
     <Compile Include="FindEventArgs.cs" />
     <Compile Include="FindTextBox.cs" />
     <Compile Include="FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\RelayCommand.cs" />
-    <Compile Include="Parser\IParser.cs" />
     <Compile Include="KeywordExtractor.cs" />
     <Compile Include="Lexer\LineLexer.cs" />
     <Compile Include="Lexer\Matcher\DateMatcher.cs" />
     <Compile Include="Lexer\Matcher\IMatcher.cs" />
     <Compile Include="Lexer\Matcher\LineMatcher.cs" />
-    <Compile Include="Lexer\Matcher\ProjectMatcher.cs" />
+    <Compile Include="Lexer\Matcher\ProjectNameMatcher.cs" />
+    <Compile Include="Lexer\Matcher\ProjectCommentMatcher.cs" />
     <Compile Include="Lexer\Matcher\TextMatcher.cs" />
     <Compile Include="Lexer\Matcher\TimePeriodMatcher.cs" />
     <Compile Include="Lexer\Token.cs" />
     <Compile Include="Lexer\TokenType.cs" />
+    <Compile Include="Model\Day.cs" />
     <Compile Include="Model\Log.cs" />
-    <Compile Include="Parser\LogParser.cs" />
     <Compile Include="Model\Period.cs" />
-    <Compile Include="Data\Repository.cs" />
     <Compile Include="Model\TimeEntry.cs" />
+    <Compile Include="Parser\IParser.cs" />
     <Page Include="FindWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,6 +108,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parser\LogParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,7 +136,12 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Timesheet.txt" />
+    <Content Include="Timesheet.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Timesheet_Todo.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\FindTextBox.dll" />

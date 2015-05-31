@@ -16,33 +16,27 @@ namespace TimeLog.Lexer.Matcher
 
         public Token Match(int lineNumber, int startPosition, string value)
         {
-            return IsTimePeriod(value, out _timePeriod)
-                ? new Token(TokenType.TimePeriod, lineNumber, startPosition, 100, _timePeriod) 
-                : null;
-        }
-
-        private bool IsTimePeriod(string line, out Period result)
-        {
-            var l = line.Trim();
-            result = null;
-
+            var l = value.Trim();
             var match = _timePeriodRegex.Match(l);
 
-            if (!match.Success) return false;
+            if (!match.Success) return null;
 
             DateTime startTime;
-            if (!DateTime.TryParse(match.Groups[1].Value, out startTime)) return false;
+            var startMatch = match.Groups[1].Value;
+
+            if (!DateTime.TryParse(startMatch, out startTime)) return null;
 
             DateTime endTime;
-            if (!DateTime.TryParse(match.Groups[2].Value, out endTime)) return false;
+            var endMatch = match.Groups[2].Value;
+
+            if (!DateTime.TryParse(endMatch, out endTime)) return null;
 
             if (endTime < startTime) endTime = endTime.AddHours(12);
 
             startTime = DateTime.MinValue + startTime.TimeOfDay;
             endTime = DateTime.MinValue + endTime.TimeOfDay;
 
-            result = new Period (startTime, endTime );
-            return true;
+            return new Token(TokenType.TimePeriod, lineNumber, startPosition, startMatch.Length + endMatch.Length + 1, new Period(startTime, endTime));
         }
     }
 }

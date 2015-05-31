@@ -7,6 +7,7 @@
         Line,
         TimePeriod,
         ProjectName,
+        ProjectComment,
         EndOfLine
     }
 }

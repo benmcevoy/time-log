@@ -35,7 +35,7 @@ namespace TimeLog.Model
 
         public DateTime EndDateTime { get; private set; }
 
-        public string ProjectName { get; private set; }
+        public string ProjectName { get; set; }
 
         public List<string> Comments { get; private set; }
 

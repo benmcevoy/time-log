@@ -41,7 +41,11 @@ namespace TimeLog
             _text = _repository.Load();
             _todo = _repository.LoadToDo();
 
-            Parallel.Invoke(EnsureDateLine);
+
+            //TODO: wtf? how about await task?
+            //Parallel.Invoke(EnsureDateLine);
+
+            EnsureDateLine();
         }
 
         private void Intellisense()

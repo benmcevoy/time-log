@@ -6,10 +6,13 @@ namespace TimeLog.Lexer.Matcher
     {
         public Token Match(int lineNumber, int startPosition, string value)
         {
+            // project name always comes after time period
+            if (startPosition == 0) return null;
+
             string project;
 
             return IsProject(value, out project)
-                ? new Token(TokenType.ProjectName, lineNumber, startPosition, 100, project)
+                ? new Token(TokenType.ProjectName, lineNumber, startPosition, project.Length, project)
                 : null;
         }
 

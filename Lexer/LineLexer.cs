@@ -9,10 +9,11 @@ namespace TimeLog.Lexer
         private static IEnumerable<IMatcher> _matchers = new List<IMatcher>
         {
             new DateMatcher(),
-            new LineMatcher(LogParser.TheIdealLine),
+            //new LineMatcher(LogParser.TheIdealLine),
             new TimePeriodMatcher(), 
             new ProjectNameMatcher(), 
-            new TextMatcher()
+            new ProjectCommentMatcher(), 
+            //new TextMatcher()
         };
 
         public IEnumerable<Token> Process(int lineNumber, string line)

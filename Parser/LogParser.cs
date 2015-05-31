@@ -22,7 +22,7 @@ namespace TimeLog.Parser
         public Log Parse(IEnumerable<string> lines)
         {
             var lineList = lines as string[] ?? lines.ToArray();
-            
+
             if (!lineList.Any()) return null;
 
             var log = new Log();
@@ -34,7 +34,7 @@ namespace TimeLog.Parser
             {
                 lineNumber++;
 
-                if (string.IsNullOrEmpty(line)) continue;
+                if (string.IsNullOrWhiteSpace(line)) continue;
 
                 Debug.WriteLine("Parsing Line {0}: {1}", lineNumber, line);
 
@@ -44,25 +44,26 @@ namespace TimeLog.Parser
                 {
                     switch (token.TokenType)
                     {
-                        case TokenType.Text:
-                            break;
                         case TokenType.Date:
                             day = new Day(lineNumber, (DateTime)token.Value);
-                            break;
-                        case TokenType.Line:
+                            log.Days.Add(day);
+                            timeEntry = null;
                             break;
 
                         case TokenType.TimePeriod:
+                            if (timeEntry != null) day.TimeEntries.Add(timeEntry);
 
+                            timeEntry = new TimeEntry((Period)token.Value);
+                            day.TimeEntries.Add(timeEntry);
                             break;
+
                         case TokenType.ProjectName:
-
+                            if (timeEntry != null) timeEntry.ProjectName = (string)token.Value;
                             break;
-                        case TokenType.EndOfLine:
 
+                        case TokenType.ProjectComment:
+                            if (timeEntry != null) timeEntry.AddComment((string)token.Value);
                             break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
                     }
                 }
 

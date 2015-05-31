@@ -1,0 +1,34 @@
+
+Tuesday 8 March 2011
+------------------------------------------------------------------------------------------
+
+a new timesheet log.  bet i don't keep it up to date.
+
+
+
+
+Monday 29 August 2011
+---------------------------------------------------------------------
+
+
+
+
+Tuesday 30 August 2011
+---------------------------------------------------------------------
+
+7:30-8:00	Internal. Talking to Matt about resourcing.
+
+8:30-10:30	Top Secret Project. Resolving deployment issues with click once. 
+deployed new protoptype with PMP button/image in it  and calendar removed (as it's trial period has expired).
+
+10:30-12:45	Top Secret Project. Setting up new solution.  
+Got the latest versions of CSLA and the WPF Ribbon bar and added these.
+
+12:45-1:30	Lunch.
+
+1:30-5:30	Top Secret Project. Review requirements
+
+5:30-8:30	Not really a Project. Microsoft presentation on TabletPC/Ink and Linq/SQL
+
+
+

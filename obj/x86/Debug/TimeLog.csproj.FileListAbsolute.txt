@@ -66,3 +66,4 @@ D:\Dev\git\time-log\obj\x86\Debug\MainWindow.baml
 D:\Dev\git\time-log\obj\x86\Debug\TimeLog.g.resources
 D:\Dev\git\time-log\obj\x86\Debug\TimeLog.Properties.Resources.resources
 D:\Dev\git\time-log\obj\x86\Debug\TimeLog.csproj.GenerateResource.Cache
+D:\Dev\git\time-log\bin\Debug\FindTextBox.dll

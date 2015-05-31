@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using TimeLog.Model;
 
-namespace TimeLog
+namespace TimeLog.Parser
 {
     public interface IParser
     {

@@ -5,8 +5,11 @@ using System.ComponentModel;
 using System.Timers;
 using System.Diagnostics;
 using System.Windows.Input;
+using TimeLog.Data;
 using TimeLog.Infrastructure;
 using System.Threading.Tasks;
+using TimeLog.Model;
+using TimeLog.Parser;
 
 namespace TimeLog
 {

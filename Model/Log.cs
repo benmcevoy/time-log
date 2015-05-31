@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using TimeLog.Parser;
 
-namespace TimeLog
+namespace TimeLog.Model
 {
     public class Log
     {

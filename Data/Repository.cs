@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Configuration;
+﻿using System.Configuration;
+using System.IO;
 
-namespace TimeLog
+namespace TimeLog.Data
 {
     public class Repository
     {

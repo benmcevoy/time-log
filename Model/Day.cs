@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TimeLog
+namespace TimeLog.Model
 {
     public class Day
     {

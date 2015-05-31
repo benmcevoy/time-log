@@ -66,21 +66,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Day.cs" />
+    <Compile Include="Model\Day.cs" />
     <Compile Include="FindEventArgs.cs" />
     <Compile Include="FindTextBox.cs" />
     <Compile Include="FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\RelayCommand.cs" />
-    <Compile Include="IParser.cs" />
+    <Compile Include="Parser\IParser.cs" />
     <Compile Include="KeywordExtractor.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="LogParser.cs" />
-    <Compile Include="LogParser2.cs" />
-    <Compile Include="Period.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="TimeEntry.cs" />
+    <Compile Include="Lexer\LineLexer.cs" />
+    <Compile Include="Lexer\Matcher\DateMatcher.cs" />
+    <Compile Include="Lexer\Matcher\IMatcher.cs" />
+    <Compile Include="Lexer\Matcher\LineMatcher.cs" />
+    <Compile Include="Lexer\Matcher\ProjectMatcher.cs" />
+    <Compile Include="Lexer\Matcher\TextMatcher.cs" />
+    <Compile Include="Lexer\Matcher\TimePeriodMatcher.cs" />
+    <Compile Include="Lexer\Token.cs" />
+    <Compile Include="Lexer\TokenType.cs" />
+    <Compile Include="Model\Log.cs" />
+    <Compile Include="Parser\LogParser.cs" />
+    <Compile Include="Model\Period.cs" />
+    <Compile Include="Data\Repository.cs" />
+    <Compile Include="Model\TimeEntry.cs" />
     <Page Include="FindWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +137,7 @@
   <ItemGroup>
     <Resource Include="Timesheet.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

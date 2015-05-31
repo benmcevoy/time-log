@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Dev\bitbucket\time-log\obj\x86\Debug\
+D:\Dev\git\time-log\obj\x86\Debug\
 TimeLog
 none
 false
 DEBUG;TRACE
-D:\Dev\bitbucket\time-log\App.xaml
+D:\Dev\git\time-log\App.xaml
 21638541682
 
-191666322526
-15-706804084
+27-1613129093
+151822421278
 FindWindow.xaml;MainWindow.xaml;
 
 False

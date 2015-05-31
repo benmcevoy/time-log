@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TimeLog
+namespace TimeLog.Model
 {
     public class TimeEntry
     {

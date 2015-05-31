@@ -1,6 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
+using TimeLog.Data;
+using TimeLog.Parser;
 
 namespace TimeLog
 {
@@ -13,22 +13,10 @@ namespace TimeLog
         {
             base.OnStartup(e);
 
-            var vm = new MainViewModel(new Repository(), new LogParser2(), new KeywordExtractor());
+            var vm = new MainViewModel(new Repository(), new LogParser(), new KeywordExtractor());
             var w = new MainWindow { ViewModel = vm };
 
             w.Show();
         }
-
-        //private void SetFirstDayOfWeek(DayOfWeek firstDayOfWeek)
-        //{
-        //    var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-        //    var uiculture = (CultureInfo)CultureInfo.CurrentUICulture.Clone();
-
-        //    culture.DateTimeFormat.FirstDayOfWeek = firstDayOfWeek;
-        //    uiculture.DateTimeFormat.FirstDayOfWeek = firstDayOfWeek;
-
-        //    System.Threading.Thread.CurrentThread.CurrentCulture = culture;
-        //    System.Threading.Thread.CurrentThread.CurrentUICulture = uiculture;
-        //}
     }
 }

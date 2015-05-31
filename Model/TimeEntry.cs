@@ -31,13 +31,13 @@ namespace TimeLog.Model
 
         public double Minutes { get { return Duration.TotalMinutes; } }
 
-        public DateTime StartDateTime { get; set; }
+        public DateTime StartDateTime { get; private set; }
 
-        public DateTime EndDateTime { get; set; }
+        public DateTime EndDateTime { get; private set; }
 
-        public string ProjectName { get; set; }
+        public string ProjectName { get; private set; }
 
-        public List<string> Comments { get; set; }
+        public List<string> Comments { get; private set; }
 
         public override string ToString()
         {

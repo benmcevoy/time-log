@@ -3,28 +3,19 @@ using System.Text.RegularExpressions;
 
 namespace TimeLog.Lexer.Matcher
 {
-    public class DateMatcher : IMatcher<DateTime>
+    public class DateMatcher : IMatcher
     {
-        public Token<DateTime> Match(int lineNumber, int startPosition, string value)
+        public Token Match(int lineNumber, int startPosition, string value)
         {
-            DateTime date;
+            DateTime result;
 
-            return IsDateLineFirstLine(value, out date)
-                ? new Token<DateTime>(TokenType.Date, lineNumber, startPosition, value.Length, date)
-                : null;
-        }
-
-        private bool IsDateLineFirstLine(string line, out DateTime result)
-        {
-            result = new DateTime();
-
-            var l = line.Trim();
-
+            var l = value.Trim();
             var match = _dateLine.Match(l);
 
-            if (!match.Success) return false;
-
-            return DateTime.TryParse(l, out result);
+            if (!match.Success) return null;
+            if (!DateTime.TryParse(l, out result)) return null;
+            
+            return new Token(TokenType.Date, lineNumber, startPosition, value.Length, result);
         }
 
         private readonly Regex _dateLine = new Regex(

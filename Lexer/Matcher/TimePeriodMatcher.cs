@@ -4,7 +4,7 @@ using TimeLog.Model;
 
 namespace TimeLog.Lexer.Matcher
 {
-    public class TimePeriodMatcher : IMatcher<Period>
+    public class TimePeriodMatcher : IMatcher
     {
         Period _timePeriod;
         private readonly Regex _timePeriodRegex = new Regex(
@@ -14,10 +14,10 @@ namespace TimeLog.Lexer.Matcher
 \s
 .*$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
 
-        public Token<Period> Match(int lineNumber, int startPosition, string value)
+        public Token Match(int lineNumber, int startPosition, string value)
         {
             return IsTimePeriod(value, out _timePeriod)
-                ? new Token<Period>(TokenType.TimePeriod, lineNumber, startPosition, 100, _timePeriod) 
+                ? new Token(TokenType.TimePeriod, lineNumber, startPosition, 100, _timePeriod) 
                 : null;
         }
 
@@ -41,7 +41,7 @@ namespace TimeLog.Lexer.Matcher
             startTime = DateTime.MinValue + startTime.TimeOfDay;
             endTime = DateTime.MinValue + endTime.TimeOfDay;
 
-            result = new Period { StartTime = startTime, EndTime = endTime };
+            result = new Period (startTime, endTime );
             return true;
         }
     }

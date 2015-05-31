@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using TimeLog.Data;
+using TimeLog.Lexer;
 using TimeLog.Parser;
 
 namespace TimeLog
@@ -13,7 +14,7 @@ namespace TimeLog
         {
             base.OnStartup(e);
 
-            var vm = new MainViewModel(new Repository(), new LogParser(), new KeywordExtractor());
+            var vm = new MainViewModel(new Repository(), new LogParser(new LineLexer()), new KeywordExtractor());
             var w = new MainWindow { ViewModel = vm };
 
             w.Show();

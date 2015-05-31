@@ -2,14 +2,14 @@
 
 namespace TimeLog.Lexer.Matcher
 {
-    public class ProjectNameMatcher : IMatcher<string>
+    public class ProjectNameMatcher : IMatcher
     {
-        public Token<string> Match(int lineNumber, int startPosition, string value)
+        public Token Match(int lineNumber, int startPosition, string value)
         {
             string project;
 
             return IsProject(value, out project)
-                ? new Token<string>(TokenType.ProjectName, lineNumber, startPosition, 100, project)
+                ? new Token(TokenType.ProjectName, lineNumber, startPosition, 100, project)
                 : null;
         }
 

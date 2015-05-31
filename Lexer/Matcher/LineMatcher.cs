@@ -2,7 +2,7 @@
 
 namespace TimeLog.Lexer.Matcher
 {
-    public class LineMatcher : IMatcher<string>
+    public class LineMatcher : IMatcher
     {
         private readonly string _idealLine;
 
@@ -11,12 +11,12 @@ namespace TimeLog.Lexer.Matcher
             _idealLine = idealLine;
         }
 
-        public Token<string> Match(int lineNumber, int startPosition, string value)
+        public Token Match(int lineNumber, int startPosition, string value)
         {
             string line;
 
             return IsDateLineSecondLine(value, out line)
-                ? new Token<string>(TokenType.Line, lineNumber, startPosition, value.Length, line) 
+                ? new Token(TokenType.Line, lineNumber, startPosition, value.Length, line) 
                 : null;
         }
 

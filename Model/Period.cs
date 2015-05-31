@@ -4,8 +4,14 @@ namespace TimeLog.Model
 {
     public class Period
     {
-        public DateTime StartTime { get; set; }
+        public Period(DateTime startTime, DateTime endTime)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+        }
 
-        public DateTime EndTime { get; set; }
+        public DateTime StartTime { get; private set; }
+
+        public DateTime EndTime { get; private set; }
     }
 }

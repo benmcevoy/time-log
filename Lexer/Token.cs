@@ -1,8 +1,8 @@
 ﻿namespace TimeLog.Lexer
 {
-    public class Token<T>
+    public class Token
     {
-        public Token(TokenType tokenType, int lineNumber,  int start, int length, T value)
+        public Token(TokenType tokenType, int lineNumber,  int start, int length, object value)
         {
             TokenType = tokenType;
             LineNumber = lineNumber;
@@ -15,6 +15,6 @@
         public int LineNumber { get; private set; }
         public int Start { get; private set; }
         public int Length { get; private set; }
-        public T Value { get; private set; }
+        public object Value { get; private set; }
     }
 }

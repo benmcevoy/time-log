@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("lib/findtextbox.dll")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("timesheet.txt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("timesheet_todo.txt")]
 
 

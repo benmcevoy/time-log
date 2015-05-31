@@ -1,1 +1,0 @@
-D:\Dev\git\time-log\bin\Debug\TimeLog.exe.config

@@ -6,7 +6,7 @@
         {
             if (string.IsNullOrWhiteSpace(value)) return null;
 
-            var result = value.Trim();
+            var result = value;
 
             return new Token(TokenType.Text, lineNumber, startPosition, result.Length, result);
         }

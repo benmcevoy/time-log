@@ -6,7 +6,7 @@ namespace TimeLog.Lexer
 {
     public class LineLexer
     {
-        private static IEnumerable<IMatcher> _matchers = new List<IMatcher>
+        private static readonly IEnumerable<IMatcher> _matchers = new List<IMatcher>
         {
             new DateMatcher(),
             //new LineMatcher(LogParser.TheIdealLine),

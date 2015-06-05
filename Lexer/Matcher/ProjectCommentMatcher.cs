@@ -14,11 +14,11 @@ namespace TimeLog.Lexer.Matcher
             if (!value.Contains(".")) return new Token(TokenType.ProjectComment, lineNumber, startPosition, value.Length, value); 
 
             // otherwise first sentance
-            var comment = value.Trim().Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+            var comment = value.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
 
             if (string.IsNullOrWhiteSpace(comment)) return null;
 
-            return new Token(TokenType.ProjectComment, lineNumber, startPosition, comment.Length, comment);
+            return new Token(TokenType.ProjectComment, lineNumber, startPosition, comment.Length, comment.Trim());
         }
     }
 }

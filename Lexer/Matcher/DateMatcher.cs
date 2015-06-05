@@ -9,11 +9,10 @@ namespace TimeLog.Lexer.Matcher
         {
             DateTime result;
 
-            var l = value.Trim();
-            var match = _dateLine.Match(l);
+            var match = _dateLine.Match(value);
 
             if (!match.Success) return null;
-            if (!DateTime.TryParse(l, out result)) return null;
+            if (!DateTime.TryParse(value.Trim(), out result)) return null;
             
             return new Token(TokenType.Date, lineNumber, startPosition, value.Length, result);
         }
@@ -25,7 +24,7 @@ namespace TimeLog.Lexer.Matcher
 \s
 (January|February|March|April|May|June|July|August|September|October|November|December)
 \s
-(20[0-1][0-9])$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
+(20[0-1][0-9])\s*$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
 
     }
 }

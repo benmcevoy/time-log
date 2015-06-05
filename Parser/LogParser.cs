@@ -27,8 +27,8 @@ namespace TimeLog.Parser
 
             var log = new Log();
             var lineNumber = -1;
-            Day day = null;
-            TimeEntry timeEntry = null;
+            Day currentDay = null;
+            TimeEntry currentTime = null;
 
             foreach (var line in lineList)
             {
@@ -45,38 +45,24 @@ namespace TimeLog.Parser
                     switch (token.TokenType)
                     {
                         case TokenType.Date:
-                            day = new Day(lineNumber, (DateTime)token.Value);
-                            log.Days.Add(day);
-                            timeEntry = null;
+                            currentDay = new Day(lineNumber, (DateTime)token.Value);
+                            log.Days.Add(currentDay);
                             break;
 
                         case TokenType.TimePeriod:
-                            if (timeEntry != null) day.TimeEntries.Add(timeEntry);
-
-                            timeEntry = new TimeEntry((Period)token.Value);
-                            day.TimeEntries.Add(timeEntry);
+                            currentTime = new TimeEntry((Period) token.Value);
+                            if (currentDay != null) currentDay.TimeEntries.Add(currentTime);
                             break;
 
                         case TokenType.ProjectName:
-                            if (timeEntry != null) timeEntry.ProjectName = (string)token.Value;
+                            if (currentTime != null) currentTime.ProjectName = Convert.ToString(token.Value);
                             break;
 
                         case TokenType.ProjectComment:
-                            if (timeEntry != null) timeEntry.AddComment((string)token.Value);
+                            if (currentTime != null) currentTime.AddComment(Convert.ToString(token.Value));
                             break;
                     }
                 }
-
-            }
-
-            if (day != null)
-            {
-                if (timeEntry != null)
-                {
-                    day.TimeEntries.Add(timeEntry);
-                }
-
-                log.Days.Add(day);
             }
 
             return log;

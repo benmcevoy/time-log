@@ -44,15 +44,15 @@ namespace TimeLog.Model
 
             var hours = selectedDay.HoursToday;
 
-            var projects = from e in selectedDay.TimeEntries
-                           group e by e.ProjectName into g
+            var projects = from entries in selectedDay.TimeEntries
+                           group entries by entries.ProjectName into project
                            select new
                            {
-                               ProjectName = g.Key,
-                               TotalDuration = g.Sum(e => e.Duration.TotalHours),
-                               Comments = g.Select(c => c.Comments.Aggregate(new StringBuilder(),
-                        (a, b) => a.Append("\r\n" + b),
-                        a => a.ToString().Replace("\r\n", "")))
+                               ProjectName = project.Key,
+                               TotalDuration = project.Sum(e => e.Duration.TotalHours),
+                               Comments = project.Select(c => c.Comments.Aggregate(new StringBuilder(),
+                        (a, b) => string.IsNullOrWhiteSpace(b) ? a.Append("") : a.Append("\r\n" + b),
+                        a => a.Replace("\r\n", "")))
                            };
 
             var projectList = "";
@@ -66,8 +66,8 @@ namespace TimeLog.Model
                     project.ProjectName,
                     project.TotalDuration,
                     project.Comments.Aggregate(new StringBuilder(),
-                        (a, b) => a.Append("\r\n" + b),
-                        a => a.Remove(0, 2).ToString()));
+                        (a, b) => string.IsNullOrWhiteSpace(b.ToString()) ? a.Append("") : a.Append("\r\n" + b),
+                        a => a.Replace("\r\n", "")));
             }
 
             var result =
@@ -155,7 +155,7 @@ Timesheet
         {
 
             var startOfWeek = StartOfWeek(forDate, DayOfWeek.Monday);
-           
+
 
             return (from t in Days
                     where t.Date >= startOfWeek

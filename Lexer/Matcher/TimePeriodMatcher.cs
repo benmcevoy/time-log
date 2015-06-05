@@ -12,11 +12,12 @@ namespace TimeLog.Lexer.Matcher
 -
 ([012]?[0-9]:[0-5][0-9])
 \s
-.*$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
+.*
+$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
 
         public Token Match(int lineNumber, int startPosition, string value)
         {
-            var l = value.Trim();
+            var l = value;
             var match = _timePeriodRegex.Match(l);
 
             if (!match.Success) return null;

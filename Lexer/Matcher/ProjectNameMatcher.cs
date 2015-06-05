@@ -12,7 +12,7 @@ namespace TimeLog.Lexer.Matcher
             string project;
 
             return IsProject(value, out project)
-                ? new Token(TokenType.ProjectName, lineNumber, startPosition, project.Length, project)
+                ? new Token(TokenType.ProjectName, lineNumber, startPosition, project.Length, project.Trim())
                 : null;
         }
 
@@ -20,7 +20,7 @@ namespace TimeLog.Lexer.Matcher
         {
             result = string.Empty;
 
-            var l = line.Trim();
+            var l = line;
             var match = _project.Match(l);
 
             if (!match.Success) return false;
@@ -29,11 +29,6 @@ namespace TimeLog.Lexer.Matcher
             return true;
         }
 
-        private readonly Regex _project = new Regex(
-@"^[012]?[0-9]:[0-5][0-9]
--
-[012]?[0-9]:[0-5][0-9]
-[\s|\t]*
-(.*?)\.(.*)$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
+        private readonly Regex _project = new Regex(@"^([\s]*.*?)\.(.*)$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
     }
 }

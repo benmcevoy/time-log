@@ -5,8 +5,11 @@ using System.ComponentModel;
 using System.Timers;
 using System.Diagnostics;
 using System.Windows.Input;
+using TimeLog.Data;
 using TimeLog.Infrastructure;
 using System.Threading.Tasks;
+using TimeLog.Model;
+using TimeLog.Parser;
 
 namespace TimeLog
 {
@@ -38,7 +41,11 @@ namespace TimeLog
             _text = _repository.Load();
             _todo = _repository.LoadToDo();
 
-            Parallel.Invoke(EnsureDateLine);
+
+            //TODO: wtf? how about await task?
+            //Parallel.Invoke(EnsureDateLine);
+
+            EnsureDateLine();
         }
 
         private void Intellisense()

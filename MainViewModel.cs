@@ -27,13 +27,14 @@ namespace TimeLog
             _parser = parser;
             _keywordExtractor = keywordExtractor;
 
-            SaveCommand = new RelayCommand(param => Save());
-            SyncCommand = new RelayCommand(param => Sync());
-            NextDayCommand = new RelayCommand(param => NextDay());
-            PreviousDayCommand = new RelayCommand(param => PreviousDay());
-            FindCommand = new RelayCommand(param => Find());
-            FindNextCommand = new RelayCommand(param => FindNext());
-            IntellisenseCommand = new RelayCommand(o => Intellisense());
+            SaveCommand = new RelayCommand(_ => Save());
+            SyncCommand = new RelayCommand(_ => Sync());
+            NextDayCommand = new RelayCommand(_ => NextDay());
+            PreviousDayCommand = new RelayCommand(_ => PreviousDay());
+            FindCommand = new RelayCommand(_ => Find());
+            FindNextCommand = new RelayCommand(_ => FindNext());
+            IntellisenseCommand = new RelayCommand(_ => Intellisense());
+            InsertCommand = new RelayCommand(x => Insert(x));
 
             _timer = new Timer(1000) { Enabled = false };
             _timer.Elapsed += Timer_Elapsed;
@@ -51,6 +52,40 @@ namespace TimeLog
         private void Intellisense()
         {
             Debug.WriteLine(FindTextBox.CaretIndex);
+        }
+
+
+        private void Insert(object arg)
+        {
+            var value = arg as string;
+            if (string.IsNullOrWhiteSpace(value)) return;
+
+            string text;
+
+            switch (value.ToUpperInvariant())
+            {
+                case "NOW":
+                    text = DateTime.Now.ToString("hh:mm tt dd/MM/yyyy").ToUpperInvariant();
+                    break;
+
+                case "DATELINE":
+                    text = "\r\n" + LogParser.TheIdealLine + "\r\n";
+                    break;
+
+                case "PERIODSTART":
+                    text = "\r\n" + DateTime.Now.ToString("hh:") + RoundToNearest(DateTime.Now.Minute, 15) + "-\t";
+                    break;
+
+                default:
+                    return;
+            }
+
+            if (InsertText != null) InsertText(this, new ValueEventArgs<string>(text));
+        }
+
+        private int RoundToNearest(int value, int roundTo)
+        {
+            return ((int)(value / roundTo)) * roundTo;
         }
 
         private void Find()
@@ -73,7 +108,7 @@ namespace TimeLog
 
             if (FindNextText != null)
             {
-                FindNextText(this, new FindEventArgs(FindText));
+                FindNextText(this, new ValueEventArgs<string>(FindText));
             }
         }
 
@@ -151,6 +186,7 @@ namespace TimeLog
         public ICommand NextDayCommand { get; private set; }
         public ICommand PreviousDayCommand { get; private set; }
         public ICommand IntellisenseCommand { get; private set; }
+        public ICommand InsertCommand { get; private set; }
 
         public string FindText { get; set; }
 
@@ -250,7 +286,8 @@ namespace TimeLog
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler Synchronize;
-        public event EventHandler<FindEventArgs> FindNextText;
+        public event EventHandler<ValueEventArgs<string>> FindNextText;
+        public event EventHandler<ValueEventArgs<string>> InsertText;
 
         public FindTextBox FindTextBox { get; set; }
     }

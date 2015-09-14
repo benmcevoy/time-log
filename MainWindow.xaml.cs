@@ -22,7 +22,7 @@ namespace TimeLog
             if (e.PropertyName != "SelectedDate") return;
 
             var scrollToLine = ViewModel.LineNumber;
-            
+
             if (scrollToLine > 20)
             {
                 scrollToLine = scrollToLine - 2;
@@ -40,11 +40,20 @@ namespace TimeLog
             _viewModel.Synchronize += ViewModel_Synchronize;
             _viewModel.FindNextText += ViewModel_FindNextText;
             _viewModel.FindTextBox = tb;
+
+            _viewModel.InsertText += ViewModel_InsertText;
         }
 
-        void ViewModel_FindNextText(object sender, FindEventArgs e)
+        private void ViewModel_InsertText(object sender, ValueEventArgs<string> e)
         {
-            tb.Find(e.FindText);
+            tb.SelectedText = e.Value;
+            tb.CaretIndex += e.Value.Length;
+            tb.SelectionLength = 0;
+        }
+
+        void ViewModel_FindNextText(object sender, ValueEventArgs<string> e)
+        {
+            tb.Find(e.Value);
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

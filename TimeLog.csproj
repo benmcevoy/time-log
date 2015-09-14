@@ -67,7 +67,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Repository.cs" />
-    <Compile Include="FindEventArgs.cs" />
     <Compile Include="FindTextBox.cs" />
     <Compile Include="FindWindow.xaml.cs">
       <DependentUpon>FindWindow.xaml</DependentUpon>
@@ -89,6 +88,7 @@
     <Compile Include="Model\Period.cs" />
     <Compile Include="Model\TimeEntry.cs" />
     <Compile Include="Parser\IParser.cs" />
+    <Compile Include="ValueEventArgs.cs" />
     <Page Include="FindWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

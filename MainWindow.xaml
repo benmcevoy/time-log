@@ -7,10 +7,13 @@
         <KeyBinding Command="{Binding NextDayCommand}" Gesture="ALT+RIGHT"/>
         <KeyBinding Command="{Binding PreviousDayCommand}" Gesture="ALT+LEFT"/>
         <KeyBinding Command="{Binding SaveCommand}" Gesture="CTRL+S"/>
-        <KeyBinding Command="{Binding SyncCommand}" Gesture="F5"/>
+        <KeyBinding Command="{Binding SyncCommand}" Gesture="F12"/>
         <KeyBinding Command="{Binding FindNextCommand}" Gesture="F3"/>
         <KeyBinding Command="{Binding FindCommand}" Gesture="CTRL+F"/>
         <KeyBinding Command="{Binding IntellisenseCommand}"  Gesture="CTRL+SPACE"/>
+        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="Now" Gesture="F5"/>
+        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="DateLine" Gesture="F8"/>
+        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="PeriodStart" Gesture="F6"/>
     </Window.InputBindings>
     <Grid>
         

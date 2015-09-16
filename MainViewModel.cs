@@ -73,7 +73,7 @@ namespace TimeLog
                     break;
 
                 case "PERIODSTART":
-                    text = "\r\n" + DateTime.Now.ToString("hh:") + RoundToNearest(DateTime.Now.Minute, 15) + "-\t";
+                    text = "\r\n" + DateTime.Now.ToString("HH:") + RoundToNearest(DateTime.Now.Minute, 15) + "-\t";
                     break;
 
                 default:

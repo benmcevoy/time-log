@@ -69,11 +69,15 @@ namespace TimeLog
                     break;
 
                 case "DATELINE":
-                    text = "\r\n" + LogParser.TheIdealLine + "\r\n";
+                    text = LogParser.TheIdealLine + "\r\n";
                     break;
 
                 case "PERIODSTART":
-                    text = "\r\n" + DateTime.Now.ToString("HH:") + RoundToNearest(DateTime.Now.Minute, 15).ToString("D2") + "-\t";
+                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15).ToString("D2") + "-\t";
+                    break;
+
+                case "PERIODEND":
+                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15, true).ToString("D2") + "\t";
                     break;
 
                 default:
@@ -83,9 +87,11 @@ namespace TimeLog
             if (InsertText != null) InsertText(this, new ValueEventArgs<string>(text));
         }
 
-        private int RoundToNearest(int value, int roundTo)
+        private static int RoundToNearest(int value, int roundTo, bool useCeiling = false)
         {
-            return ((int)(value / roundTo)) * roundTo;
+            if (useCeiling) return (int)Math.Ceiling(value / (double)roundTo) * roundTo;
+
+            return (value / roundTo) * roundTo;
         }
 
         private void Find()

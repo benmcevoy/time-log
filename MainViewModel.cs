@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Windows.Input;
 using TimeLog.Data;
 using TimeLog.Infrastructure;
-using System.Threading.Tasks;
 using TimeLog.Model;
 using TimeLog.Parser;
 
@@ -54,7 +53,6 @@ namespace TimeLog
             Debug.WriteLine(FindTextBox.CaretIndex);
         }
 
-
         private void Insert(object arg)
         {
             var value = arg as string;
@@ -73,11 +71,11 @@ namespace TimeLog
                     break;
 
                 case "PERIODSTART":
-                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15).ToString("D2") + "-\t";
+                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15).ToString("D2") + "-";
                     break;
 
                 case "PERIODEND":
-                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15, true).ToString("D2") + "\t";
+                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15, true).ToString("D2");
                     break;
 
                 default:

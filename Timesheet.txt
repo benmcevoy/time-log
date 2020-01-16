@@ -31,4 +31,12 @@ Got the latest versions of CSLA and the WPF Ribbon bar and added these.
 5:30-8:30	Not really a Project. Microsoft presentation on TabletPC/Ink and Linq/SQL
 
 
+Tuesday 31 December 2019
+---------------------------------------------------------------------
 
+8:00-9:00	Test. Guess I never worked over the new year before.
+
+Wednesday 1 January 2020
+---------------------------------------------------------------------
+
+8:00-9:00	Test. Becuase it fails. Oh wait, no. must have an older version at work.

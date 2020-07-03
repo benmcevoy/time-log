@@ -14,8 +14,8 @@ namespace TimeLog
         {
             base.OnStartup(e);
 
-            var vm = new MainViewModel(new Repository(), new LogParser(new LineLexer()), new KeywordExtractor());
-            var w = new MainWindow { ViewModel = vm };
+            
+            var w = new MainWindow {  };
 
             w.Show();
         }

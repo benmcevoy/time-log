@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TimeLog
+namespace TimeLog.Infrastructure
 {
     public class ValueEventArgs<T> : EventArgs
     {

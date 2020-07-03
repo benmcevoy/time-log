@@ -66,12 +66,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\Command.cs" />
+    <Compile Include="Commands\Find\Find.cs" />
+    <Compile Include="Commands\Find\FindNext.cs" />
+    <Compile Include="Commands\Find\FindPrevious.cs" />
+    <Compile Include="Commands\Formatting\FormatSelectionBase64Decode.cs" />
+    <Compile Include="Commands\Formatting\FormatSelectionBase64Encode.cs" />
+    <Compile Include="Commands\Formatting\FormatSelectionDecodeUrl.cs" />
+    <Compile Include="Commands\Formatting\FormatSelectionEncodeUrl.cs" />
+    <Compile Include="Commands\Formatting\FormatSelectionToLower.cs" />
+    <Compile Include="Commands\Formatting\FormatSelectionToUpper.cs" />
+    <Compile Include="Commands\Goto.cs" />
+    <Compile Include="Commands\ShowContextMenu.cs" />
+    <Compile Include="Commands\SpellCheck.cs" />
     <Compile Include="Data\Repository.cs" />
-    <Compile Include="FindTextBox.cs" />
-    <Compile Include="FindWindow.xaml.cs">
-      <DependentUpon>FindWindow.xaml</DependentUpon>
+    <Compile Include="Dialog.xaml.cs">
+      <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogHelper.cs" />
+    <Compile Include="Infrastructure\NotifyObject.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="Infrastructure\State.cs" />
     <Compile Include="KeywordExtractor.cs" />
     <Compile Include="Lexer\LineLexer.cs" />
     <Compile Include="Lexer\Matcher\DateMatcher.cs" />
@@ -88,10 +103,10 @@
     <Compile Include="Model\Period.cs" />
     <Compile Include="Model\TimeEntry.cs" />
     <Compile Include="Parser\IParser.cs" />
-    <Compile Include="ValueEventArgs.cs" />
-    <Page Include="FindWindow.xaml">
-      <SubType>Designer</SubType>
+    <Compile Include="Infrastructure\ValueEventArgs.cs" />
+    <Page Include="Dialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +151,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icons\error.ico" />
+    <Resource Include="Icons\information.ico" />
+    <Resource Include="Icons\question.ico" />
+    <Resource Include="Icons\warning.ico" />
     <Content Include="Timesheet.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -146,6 +165,7 @@
   <ItemGroup>
     <None Include="lib\FindTextBox.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,6 +5,9 @@ using System.ComponentModel;
 using System.Timers;
 using System.Diagnostics;
 using System.Windows.Input;
+using TimeLog.Commands;
+using TimeLog.Commands.Find;
+using TimeLog.Commands.Formatting;
 using TimeLog.Data;
 using TimeLog.Infrastructure;
 using TimeLog.Model;
@@ -17,23 +20,22 @@ namespace TimeLog
         private readonly Timer _timer;
         private readonly IParser _parser;
         private readonly KeywordExtractor _keywordExtractor;
+        private readonly State _state;
         private readonly Repository _repository;
         private Log _log;
 
-        public MainViewModel(Repository repository, IParser parser, KeywordExtractor keywordExtractor)
+        public MainViewModel(Repository repository, IParser parser, KeywordExtractor keywordExtractor, State state)
         {
             _repository = repository;
             _parser = parser;
             _keywordExtractor = keywordExtractor;
+            _state = state;
 
             SaveCommand = new RelayCommand(_ => Save());
             SyncCommand = new RelayCommand(_ => Sync());
             NextDayCommand = new RelayCommand(_ => NextDay());
             PreviousDayCommand = new RelayCommand(_ => PreviousDay());
-            FindCommand = new RelayCommand(_ => Find());
-            FindNextCommand = new RelayCommand(_ => FindNext());
-            IntellisenseCommand = new RelayCommand(_ => Intellisense());
-            InsertCommand = new RelayCommand(x => Insert(x));
+            InsertCommand = new RelayCommand(_ => Insert());
 
             _timer = new Timer(1000) { Enabled = false };
             _timer.Elapsed += Timer_Elapsed;
@@ -41,48 +43,29 @@ namespace TimeLog
             _text = _repository.Load();
             _todo = _repository.LoadToDo();
 
-
-            //TODO: wtf? how about await task?
-            //Parallel.Invoke(EnsureDateLine);
+            Find = new Find(state);
+            FindNext = new FindNext(state);
+            FindPrevious = new FindPrevious(state);
+            Goto = new Goto(state);
+            ShowContextMenu = new ShowContextMenu(state);
+            FormatSelectionBase64Decode = new FormatSelectionBase64Decode(state);
+            FormatSelectionBase64Encode = new FormatSelectionBase64Encode(state);
+            FormatSelectionDecodeUrl = new FormatSelectionDecodeUrl(state);
+            FormatSelectionEncodeUrl = new FormatSelectionEncodeUrl(state);
+            FormatSelectionToLower = new FormatSelectionToLower(state);
+            FormatSelectionToUpper = new FormatSelectionToUpper(state);
+            SpellCheck = new SpellCheck(state);
 
             EnsureDateLine();
         }
 
-        private void Intellisense()
+        private void Insert()
         {
-            Debug.WriteLine(FindTextBox.CaretIndex);
-        }
+            var text = "\r\n" + DateTime.Today.ToString(LogParser.LogDateFormat) + "\r\n" + LogParser.TheIdealLine + "\r\n";
 
-        private void Insert(object arg)
-        {
-            var value = arg as string;
-            if (string.IsNullOrWhiteSpace(value)) return;
-
-            string text;
-
-            switch (value.ToUpperInvariant())
-            {
-                case "NOW":
-                    text = DateTime.Now.ToString("hh:mm tt dd/MM/yyyy").ToUpperInvariant();
-                    break;
-
-                case "DATELINE":
-                    text = LogParser.TheIdealLine + "\r\n";
-                    break;
-
-                case "PERIODSTART":
-                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15).ToString("D2") + "-";
-                    break;
-
-                case "PERIODEND":
-                    text = DateTime.Now.ToString("h:") + RoundToNearest(DateTime.Now.Minute, 15, true).ToString("D2");
-                    break;
-
-                default:
-                    return;
-            }
-
-            if (InsertText != null) InsertText(this, new ValueEventArgs<string>(text));
+            _state.TextBox.SelectedText = text;
+            _state.TextBox.CaretIndex += text.Length;
+            _state.TextBox.SelectionLength = 0;
         }
 
         private static int RoundToNearest(int value, int roundTo, bool useCeiling = false)
@@ -90,30 +73,6 @@ namespace TimeLog
             if (useCeiling) return (int)Math.Ceiling(value / (double)roundTo) * roundTo;
 
             return (value / roundTo) * roundTo;
-        }
-
-        private void Find()
-        {
-            var w = new FindWindow { Find = FindText };
-            var result = w.ShowDialog();
-
-            if (result != true) return;
-
-            FindText = w.Find;
-            FindNext();
-        }
-
-        private void FindNext()
-        {
-            if (string.IsNullOrEmpty(FindText))
-            {
-                return;
-            }
-
-            if (FindNextText != null)
-            {
-                FindNextText(this, new ValueEventArgs<string>(FindText));
-            }
         }
 
         public void FindDay(int startLine, int endLine)
@@ -184,15 +143,11 @@ namespace TimeLog
         }
 
         public ICommand SyncCommand { get; private set; }
-        public ICommand FindCommand { get; private set; }
-        public ICommand FindNextCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand NextDayCommand { get; private set; }
         public ICommand PreviousDayCommand { get; private set; }
-        public ICommand IntellisenseCommand { get; private set; }
         public ICommand InsertCommand { get; private set; }
 
-        public string FindText { get; set; }
 
         private string _text;
         public string Text
@@ -290,10 +245,19 @@ namespace TimeLog
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler Synchronize;
-        public event EventHandler<ValueEventArgs<string>> FindNextText;
-        public event EventHandler<ValueEventArgs<string>> InsertText;
 
-        public FindTextBox FindTextBox { get; set; }
+        public Find Find { get; }
+        public FindNext FindNext { get; }
+        public FindPrevious FindPrevious { get; }
+        public Goto Goto { get; }
+        public ShowContextMenu ShowContextMenu { get; }
+        public FormatSelectionBase64Decode FormatSelectionBase64Decode { get; }
+        public FormatSelectionBase64Encode FormatSelectionBase64Encode { get; }
+        public FormatSelectionDecodeUrl FormatSelectionDecodeUrl { get; }
+        public FormatSelectionEncodeUrl FormatSelectionEncodeUrl { get; }
+        public FormatSelectionToLower FormatSelectionToLower { get; }
+        public FormatSelectionToUpper FormatSelectionToUpper { get; }
+        public SpellCheck SpellCheck { get; }
     }
 }
 

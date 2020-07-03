@@ -1,0 +1,46 @@
+﻿<Window x:Class="TimeLog.Dialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="160" Width="280" 
+        WindowStyle="SingleBorderWindow" 
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" 
+        SizeToContent="Manual" ShowInTaskbar="False" 
+        FontFamily="Calibri">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="6" />
+            <Setter Property="MinWidth" Value="64"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+        <Style TargetType="{x:Type Button}"
+               BasedOn="{StaticResource ButtonStyle}" />
+
+    </Window.Resources>
+    <DockPanel LastChildFill="False">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="6">
+            <StackPanel Orientation="Horizontal">
+                <Image Name="Icon" Visibility="Collapsed" Height="32" Width="32" Stretch="Fill"/>
+                <TextBlock Name="Message" Text="Message here" FontSize="16" Padding="10,10,0,0" TextWrapping="Wrap" MaxWidth="240" >
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+            <TextBox Name="Value" Visibility="Collapsed" HorizontalContentAlignment="Stretch" Margin="6" FontSize="14" KeyDown="Value_OnKeyDown" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Height="32" Background="#FFEEEEEE" DockPanel.Dock="Bottom" FlowDirection="RightToLeft">
+            <Button TabIndex="5" Name="Cancel" Content="Cancel" IsCancel="True" Click="SetResult" Tag="Cancel" />
+            <Button TabIndex="4" Name="No" Content="No" Click="SetResult" Tag="No" />
+            <Button TabIndex="3" Name="OK" Content="OK" Click="SetResult" Tag="OK" />
+            <Button TabIndex="2" Name="Yes" Content="Yes" Click="SetResult" Tag="Yes" />
+            <Button TabIndex="1" Name="DontSave" Content="Don't Save" Click="SetResult" Tag="No" />
+            <Button TabIndex="0" Name="Save" Content="Save" Click="SetResult" Tag="Yes" />
+        </StackPanel>
+    </DockPanel>
+</Window>

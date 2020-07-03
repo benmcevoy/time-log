@@ -8,34 +8,54 @@
         <KeyBinding Command="{Binding PreviousDayCommand}" Gesture="ALT+LEFT"/>
         <KeyBinding Command="{Binding SaveCommand}" Gesture="CTRL+S"/>
         <KeyBinding Command="{Binding SyncCommand}" Gesture="F12"/>
-        <KeyBinding Command="{Binding FindNextCommand}" Gesture="F3"/>
-        <KeyBinding Command="{Binding FindCommand}" Gesture="CTRL+F"/>
-        <KeyBinding Command="{Binding IntellisenseCommand}"  Gesture="CTRL+SPACE"/>
-        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="Now" Gesture="F5"/>
-        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="DateLine" Gesture="F8"/>
-        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="PeriodStart" Gesture="F6"/>
-        <KeyBinding Command="{Binding InsertCommand}" CommandParameter="PeriodEnd" Gesture="F7"/>
+        <KeyBinding Command="{Binding FindNext}" Gesture="F3"/>
+        <KeyBinding Command="{Binding FindPrevious}" Gesture="SHIFT+F3"/>
+        <KeyBinding Command="{Binding Find}" Gesture="CTRL+F"/>
+        <KeyBinding Command="{Binding Goto}"  Gesture="CTRL+G"/>
+        <KeyBinding Command="{Binding InsertCommand}" Gesture="F5"/>
+        <KeyBinding Command="{Binding ShowContextMenu}" Gesture="CTRL+Space"/>
+
+
     </Window.InputBindings>
     <Grid>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100" />
             <RowDefinition Height="22" />
         </Grid.RowDefinitions>
-        
-            <f:FindTextBox x:Name="tb" Grid.Column="0" Text="{Binding Text}" 
-                 Background="#FF272822" Foreground="#FFCECECE" 
-                 AcceptsReturn="True" AcceptsTab="True" 
-                 SpellCheck.IsEnabled="True" HorizontalScrollBarVisibility="Auto" 
-                 VerticalScrollBarVisibility="Auto" />
+
+        <TextBox x:Name="tb" Grid.Column="0" Text="{Binding Text}" 
+                       Background="#FF272822" Foreground="#FFCECECE" 
+                       AcceptsReturn="True" AcceptsTab="True" 
+                       SpellCheck.IsEnabled="True" HorizontalScrollBarVisibility="Auto" 
+                       VerticalScrollBarVisibility="Auto" >
+            <!-- TODO: show line number down the side -->
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="ApplicationCommands.Cut" />
+                    <MenuItem Command="ApplicationCommands.Copy" />
+                    <MenuItem Command="ApplicationCommands.Paste" />
+                    <MenuItem Command="ApplicationCommands.SelectAll" />
+                    <MenuItem Command="{Binding FormatSelectionBase64Decode}" Header="Base64 decode" />
+                    <MenuItem Command="{Binding FormatSelectionBase64Encode}" Header="Base64 encode"  />
+                    <MenuItem Command="{Binding FormatSelectionDecodeUrl}" Header="Url decode"  />
+                    <MenuItem Command="{Binding FormatSelectionEncodeUrl}" Header="Url encode"  />
+                    <MenuItem Command="{Binding FormatSelectionToLower}" Header="To lower"  />
+                    <MenuItem Command="{Binding FormatSelectionToUpper}" Header="To upper"  />
+                    <MenuItem Command="{Binding SpellCheck}" Header="Spelling" Name="Timelog_Commands_SpellCheck"/>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+
+        </TextBox>
+
 
         <GridSplitter 
             ResizeDirection="Columns"
@@ -83,12 +103,12 @@
                  AcceptsReturn="True" AcceptsTab="True" 
                  SpellCheck.IsEnabled="True" HorizontalScrollBarVisibility="Auto" 
                  VerticalScrollBarVisibility="Auto" />
-        
+
         <StatusBar Grid.Row="3" Grid.ColumnSpan="3" >
             <StatusBarItem DockPanel.Dock="Right">
                 <TextBlock Text="{Binding RemainToday, StringFormat=Remain today: {0} hours, Mode=OneWay}" />
             </StatusBarItem>
-            
+
             <StatusBarItem>
                 <TextBlock Text="{Binding Status, Mode=OneWay}" />
             </StatusBarItem>

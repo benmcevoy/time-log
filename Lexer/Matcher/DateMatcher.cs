@@ -24,7 +24,7 @@ namespace TimeLog.Lexer.Matcher
 \s
 (January|February|March|April|May|June|July|August|September|October|November|December)
 \s
-(20[0-1][0-9])\s*$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
+(20[0-9][0-9])\s*$", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
 
     }
 }

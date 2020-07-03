@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Windows;
+using TimeLog.Data;
+using TimeLog.Infrastructure;
+using TimeLog.Lexer;
+using TimeLog.Parser;
 
 namespace TimeLog
 {
@@ -10,9 +14,11 @@ namespace TimeLog
             InitializeComponent();
             Closing += MainWindow_Closing;
             Loaded += MainWindow_Loaded;
+
+            ViewModel = new MainViewModel(new Repository(), new LogParser(new LineLexer()), new KeywordExtractor(), new State(this, tb));
         }
 
-        void ViewModel_Synchronize(object sender, EventArgs e)
+        private void ViewModel_Synchronize(object sender, EventArgs e)
         {
             FindDay();
         }
@@ -31,29 +37,12 @@ namespace TimeLog
             tb.ScrollToLine(scrollToLine);
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= MainWindow_Loaded;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             tb.ScrollToEnd();
-
             _viewModel.Synchronize += ViewModel_Synchronize;
-            _viewModel.FindNextText += ViewModel_FindNextText;
-            _viewModel.FindTextBox = tb;
-
-            _viewModel.InsertText += ViewModel_InsertText;
-        }
-
-        private void ViewModel_InsertText(object sender, ValueEventArgs<string> e)
-        {
-            tb.SelectedText = e.Value;
-            tb.CaretIndex += e.Value.Length;
-            tb.SelectionLength = 0;
-        }
-
-        void ViewModel_FindNextText(object sender, ValueEventArgs<string> e)
-        {
-            tb.Find(e.Value);
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -67,7 +67,7 @@ namespace TimeLog.Model
                     project.TotalDuration,
                     project.Comments.Aggregate(new StringBuilder(),
                         (a, b) => string.IsNullOrWhiteSpace(b.ToString()) ? a.Append("") : a.Append("\r\n" + b),
-                        a => a.Replace("\r\n", "")));
+                        a => a));
             }
 
             var result =

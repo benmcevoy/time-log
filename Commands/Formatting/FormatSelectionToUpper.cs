@@ -1,6 +1,5 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
-using TimeLog.Infrastructure;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace TimeLog.Commands.Formatting
 {
@@ -8,7 +7,7 @@ namespace TimeLog.Commands.Formatting
     {
         public FormatSelectionToUpper(State state) : base(state) { }
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
             var raw = State.TextBox.SelectedText;
 
@@ -16,19 +15,16 @@ namespace TimeLog.Commands.Formatting
         }
 
         public override string Name { get; } = "Format selection as upper case";
-        public override InputBinding[] ApplicationInputBindings()
+        public override KeyBinding[] ApplicationInputBindings()
         {
-            return new InputBinding[]
-                {
-                    new KeyBinding(this, Key.U, ModifierKeys.Control | ModifierKeys.Shift),
-                };
+            return new[] {new KeyBinding {Command = this, Gesture = KeyGesture.Parse("Ctrl+Shift+U")},};
         }
 
         public override string ContextMenuParentName { get; } = "Format";
-        public override bool CanExecute(object parameter) => !string.IsNullOrEmpty(State.TextBox.SelectedText);
+        public override bool CanExecute(object? parameter) => !string.IsNullOrEmpty(State.TextBox.SelectedText);
         public override MenuItem ContextMenuItem
         {
-            get => new MenuItem { Header = "To upper", Command = this, InputGestureText = "Ctrl+Shift+U" };
+            get => new MenuItem {Header = "To upper", Command = this, InputGesture = KeyGesture.Parse("Ctrl+Shift+U")};
         }
     }
 }

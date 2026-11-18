@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 
 namespace TimeLog.Data
 {
@@ -8,10 +7,10 @@ namespace TimeLog.Data
         private readonly string _filePathAndName;
         private readonly string _todoFilePathAndName;
 
-        public Repository()
+        public Repository(string filePath, string todoFilePath)
         {
-            _filePathAndName = ConfigurationManager.AppSettings["filePath"];
-            _todoFilePathAndName = ConfigurationManager.AppSettings["todoFilePath"];
+            _filePathAndName = filePath;
+            _todoFilePathAndName = todoFilePath;
         }
 
         public void Save(string log)

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TimeLog.Model
+﻿namespace TimeLog.Model
 {
     public class TimeEntry
     {
         public TimeEntry()
         {
-            Comments = new List<string>();
+            Comments = [];
         }
 
         public TimeEntry(Period period)
@@ -35,7 +32,7 @@ namespace TimeLog.Model
 
         public DateTime EndDateTime { get; private set; }
 
-        public string ProjectName { get; set; }
+        public string ProjectName { get; set; } = "";
 
         public List<string> Comments { get; private set; }
 

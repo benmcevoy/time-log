@@ -24,14 +24,14 @@ namespace TimeLog.Lexer
             {
                 var token = matcher.Match(lineNumber, startPos, line.Substring(startPos));
 
-                if (token == null) continue;
+                if (token is null || token.TokenType == TokenType.UNKNOWN) continue;
 
                 startPos += token.Length;
 
                 yield return token;
             }
 
-            yield return new Token(TokenType.EndOfLine, lineNumber, startPos, 0, null);
+            yield return new Token(TokenType.EndOfLine, lineNumber, startPos, 0, new());
         }
     }
 }

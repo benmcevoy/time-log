@@ -1,8 +1,6 @@
-﻿using System;
-using System.Text;
-using System.Windows.Controls;
-using System.Windows.Input;
-using TimeLog.Infrastructure;
+﻿using System.Text;
+using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace TimeLog.Commands.Formatting
 {
@@ -10,7 +8,7 @@ namespace TimeLog.Commands.Formatting
     {
         public FormatSelectionBase64Decode(State state) : base(state) { }
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
             try
             {
@@ -24,9 +22,9 @@ namespace TimeLog.Commands.Formatting
             }
         }
 
-        public override bool CanExecute(object parameter) => !string.IsNullOrEmpty(State.TextBox.SelectedText);
+        public override bool CanExecute(object? parameter) => !string.IsNullOrEmpty(State.TextBox.SelectedText);
         public override string Name { get; } = "Format selection from base64";
-        public override InputBinding[] ApplicationInputBindings() => null;
+        public override KeyBinding[] ApplicationInputBindings() => [];
         public override string ContextMenuParentName { get; } = "Format";
         public override MenuItem ContextMenuItem
         {

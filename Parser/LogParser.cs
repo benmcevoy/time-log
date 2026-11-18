@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using TimeLog.Lexer;
 using TimeLog.Model;
 
@@ -22,13 +19,10 @@ namespace TimeLog.Parser
         public Log Parse(IEnumerable<string> lines)
         {
             var lineList = lines as string[] ?? lines.ToArray();
-
-            if (!lineList.Any()) return null;
-
             var log = new Log();
             var lineNumber = -1;
-            Day currentDay = null;
-            TimeEntry currentTime = null;
+            Day? currentDay = null;
+            TimeEntry? currentTime = null;
 
             foreach (var line in lineList)
             {
@@ -50,16 +44,16 @@ namespace TimeLog.Parser
                             break;
 
                         case TokenType.TimePeriod:
-                            currentTime = new TimeEntry((Period) token.Value);
+                            currentTime = new TimeEntry((Period)token.Value);
                             if (currentDay != null) currentDay.TimeEntries.Add(currentTime);
                             break;
 
                         case TokenType.ProjectName:
-                            if (currentTime != null) currentTime.ProjectName = Convert.ToString(token.Value);
+                            if (currentTime != null) currentTime.ProjectName = Convert.ToString(token.Value) ?? "";
                             break;
 
                         case TokenType.ProjectComment:
-                            if (currentTime != null) currentTime.AddComment(Convert.ToString(token.Value));
+                            if (currentTime != null) currentTime.AddComment(Convert.ToString(token.Value) ?? "");
                             break;
                     }
                 }

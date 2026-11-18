@@ -2,6 +2,7 @@
 {
     public enum TokenType
     {
+        UNKNOWN,
         Text,
         Date,
         Line,

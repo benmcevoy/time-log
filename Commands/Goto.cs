@@ -1,6 +1,5 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
-using TimeLog.Infrastructure;
+﻿using Avalonia.Input;
+using TimeLog.Controls.Dialog;
 
 namespace TimeLog.Commands
 {
@@ -8,25 +7,26 @@ namespace TimeLog.Commands
     {
         public Goto(State state) : base(state) { }
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
-            var dialog = new Dialog();
-            var result = dialog.Prompt(State.Owner, "Enter line number:", null,"Notepad");
+            var dialog = DialogHelper.Prompt(State.Owner, "Enter line number:", "");
 
-            if (!result.Result) return;
-            if (!int.TryParse(result.Value, out var lineNumber)) return;
+            if (dialog.MessageBoxResult == MessageBoxResult.Cancel) return;
+            if (!int.TryParse(dialog.MessageBoxPromptValue, out var lineNumber)) return;
+
+            var totalLines = State.TextBox_TextLayout!.TextLines.Count;
+
+            lineNumber = (lineNumber >= totalLines) ? totalLines - 1 : lineNumber;
+            lineNumber = (lineNumber < 0) ? 0 : lineNumber;
 
             State.TextBox.ScrollToLine(lineNumber);
-            State.TextBox.Select(State.TextBox.GetCharacterIndexFromLineIndex(lineNumber), 0);
         }
 
         public override string Name { get; } = "Go to line";
 
-        public override InputBinding[] ApplicationInputBindings() =>
-            new[] {new KeyBinding(this, Key.G, ModifierKeys.Control),};
-        
-        public override MenuItem ContextMenuItem { get; }
+        public override KeyBinding[] ApplicationInputBindings() =>
+            [new KeyBinding { Command = this, Gesture = KeyGesture.Parse("Ctrl+G") }];
 
-        public override bool CanExecute(object parameter) => !string.IsNullOrEmpty(State.TextBox.Text);
+        public override bool CanExecute(object? parameter) => !string.IsNullOrEmpty(State.TextBox.Text);
     }
 }

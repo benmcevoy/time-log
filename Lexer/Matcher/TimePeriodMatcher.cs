@@ -1,12 +1,11 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using TimeLog.Model;
 
 namespace TimeLog.Lexer.Matcher
 {
     public class TimePeriodMatcher : IMatcher
     {
-        Period _timePeriod;
+        //Period _timePeriod;
         private readonly Regex _timePeriodRegex = new Regex(
             @"^([012]?[0-9]:[0-5][0-9])
 -
@@ -20,17 +19,17 @@ $", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
             var l = value;
             var match = _timePeriodRegex.Match(l);
 
-            if (!match.Success) return null;
+            if (!match.Success) return Token.Unknown;
 
             DateTime startTime;
             var startMatch = match.Groups[1].Value;
 
-            if (!DateTime.TryParse(startMatch, out startTime)) return null;
+            if (!DateTime.TryParse(startMatch, out startTime)) return Token.Unknown;
 
             DateTime endTime;
             var endMatch = match.Groups[2].Value;
 
-            if (!DateTime.TryParse(endMatch, out endTime)) return null;
+            if (!DateTime.TryParse(endMatch, out endTime)) return Token.Unknown;
 
             if (endTime < startTime) endTime = endTime.AddHours(12);
 

@@ -7,8 +7,8 @@ namespace TimeLog.Lexer.Matcher
     {
         public Token Match(int lineNumber, int startPosition, string value)
         {
-            if (startPosition == 0) return null;
-            if (string.IsNullOrWhiteSpace(value)) return null;
+            if (startPosition == 0) return Token.Unknown;
+            if (string.IsNullOrWhiteSpace(value)) return Token.Unknown;
 
             // rest of line if no full stop
             if (!value.Contains(".")) return new Token(TokenType.ProjectComment, lineNumber, startPosition, value.Length, value); 
@@ -16,7 +16,7 @@ namespace TimeLog.Lexer.Matcher
             // otherwise first sentance
             var comment = value.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
 
-            if (string.IsNullOrWhiteSpace(comment)) return null;
+            if (string.IsNullOrWhiteSpace(comment)) return Token.Unknown;
 
             return new Token(TokenType.ProjectComment, lineNumber, startPosition, comment.Length, comment.Trim());
         }

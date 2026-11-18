@@ -4,7 +4,7 @@
     {
         public Token Match(int lineNumber, int startPosition, string value)
         {
-            if (string.IsNullOrWhiteSpace(value)) return null;
+            if (string.IsNullOrWhiteSpace(value)) return Token.Unknown;
 
             var result = value;
 

@@ -17,7 +17,7 @@ namespace TimeLog.Lexer.Matcher
 
             return IsDateLineSecondLine(value, out line)
                 ? new Token(TokenType.Line, lineNumber, startPosition, value.Length, line) 
-                : null;
+                : Token.Unknown;
         }
 
         private bool IsDateLineSecondLine(string line, out string result)

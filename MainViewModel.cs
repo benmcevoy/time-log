@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Timers;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -9,7 +6,6 @@ using TimeLog.Commands;
 using TimeLog.Commands.Find;
 using TimeLog.Commands.Formatting;
 using TimeLog.Data;
-using TimeLog.Infrastructure;
 using TimeLog.Model;
 using TimeLog.Parser;
 
@@ -17,12 +13,12 @@ namespace TimeLog
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private readonly Timer _timer;
+        private readonly System.Timers.Timer _timer;
         private readonly IParser _parser;
         private readonly KeywordExtractor _keywordExtractor;
         private readonly State _state;
         private readonly Repository _repository;
-        private Log _log;
+        private Log _log = new();
 
         public MainViewModel(Repository repository, IParser parser, KeywordExtractor keywordExtractor, State state)
         {
@@ -31,18 +27,20 @@ namespace TimeLog
             _keywordExtractor = keywordExtractor;
             _state = state;
 
-            SaveCommand = new RelayCommand(_ => Save());
-            SyncCommand = new RelayCommand(_ => Sync());
-            NextDayCommand = new RelayCommand(_ => NextDay());
-            PreviousDayCommand = new RelayCommand(_ => PreviousDay());
-            InsertCommand = new RelayCommand(_ => Insert());
-
-            _timer = new Timer(1000) { Enabled = false };
+            _timer = new System.Timers.Timer(1000) { Enabled = false };
             _timer.Elapsed += Timer_Elapsed;
 
             _text = _repository.Load();
             _todo = _repository.LoadToDo();
 
+            SaveCommand = new RelayCommand(Save);
+            SyncCommand = new RelayCommand(Sync);
+            NextDayCommand = new RelayCommand(NextDay);
+            PreviousDayCommand = new RelayCommand(PreviousDay);
+            InsertCommand = new RelayCommand(Insert);
+            Cut = new Cut(state);
+            Copy = new Copy(state);
+            Paste = new Paste(state);
             Find = new Find(state);
             FindNext = new FindNext(state);
             FindPrevious = new FindPrevious(state);
@@ -54,7 +52,6 @@ namespace TimeLog
             FormatSelectionEncodeUrl = new FormatSelectionEncodeUrl(state);
             FormatSelectionToLower = new FormatSelectionToLower(state);
             FormatSelectionToUpper = new FormatSelectionToUpper(state);
-            SpellCheck = new SpellCheck(state);
 
             EnsureDateLine();
         }
@@ -64,8 +61,7 @@ namespace TimeLog
             var text = "\r\n" + DateTime.Today.ToString(LogParser.LogDateFormat) + "\r\n" + LogParser.TheIdealLine + "\r\n";
 
             _state.TextBox.SelectedText = text;
-            _state.TextBox.CaretIndex += text.Length;
-            _state.TextBox.SelectionLength = 0;
+            _state.TextBox.ClearSelection();
         }
 
         private static int RoundToNearest(int value, int roundTo, bool useCeiling = false)
@@ -94,7 +90,7 @@ namespace TimeLog
 
             if (_log.Days.All(d => d.Date != DateTime.Today))
             {
-                _text = _text + string.Format("\r\n\r\n{0}\r\n{1}\r\n\r\n\r\n", DateTime.Today.ToString(LogParser.LogDateFormat), LogParser.TheIdealLine);
+                _text += string.Format("\r\n\r\n{0}\r\n{1}\r\n\r\n\r\n", DateTime.Today.ToString(LogParser.LogDateFormat), LogParser.TheIdealLine);
             }
         }
 
@@ -127,7 +123,7 @@ namespace TimeLog
             }
         }
 
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
             Debug.WriteLine("Timer elapsed");
             SetDirty(false);
@@ -147,7 +143,6 @@ namespace TimeLog
         public ICommand NextDayCommand { get; private set; }
         public ICommand PreviousDayCommand { get; private set; }
         public ICommand InsertCommand { get; private set; }
-
 
         private string _text;
         public string Text
@@ -183,7 +178,7 @@ namespace TimeLog
             }
         }
 
-        private IEnumerable<string> _keywords;
+        private IEnumerable<string> _keywords = [];
         public IEnumerable<string> Keywords
         {
             get { return _keywords; }
@@ -196,7 +191,7 @@ namespace TimeLog
             }
         }
 
-        private string _status;
+        private string _status = "";
         public string Status { get { return string.Format("{0} {1}", _status, DateTime.Now.ToLongTimeString()); } set { _status = value; OnPropertyChanged("Status"); } }
 
         private double _remainToday;
@@ -232,7 +227,7 @@ namespace TimeLog
             }
         }
 
-        private string _statistics;
+        private string _statistics = "";
         public string Statistics { get { return _statistics; } set { _statistics = value; OnPropertyChanged("Statistics"); } }
 
         private void OnPropertyChanged(string propertyName)
@@ -243,9 +238,11 @@ namespace TimeLog
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler Synchronize;
-
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? Synchronize;
+        public Cut Cut { get; }
+        public Copy Copy { get; }
+        public Paste Paste { get; }
         public Find Find { get; }
         public FindNext FindNext { get; }
         public FindPrevious FindPrevious { get; }
@@ -257,7 +254,6 @@ namespace TimeLog
         public FormatSelectionEncodeUrl FormatSelectionEncodeUrl { get; }
         public FormatSelectionToLower FormatSelectionToLower { get; }
         public FormatSelectionToUpper FormatSelectionToUpper { get; }
-        public SpellCheck SpellCheck { get; }
     }
 }
 

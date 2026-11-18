@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using TimeLog.Parser;
 
 namespace TimeLog.Model
@@ -14,14 +10,14 @@ namespace TimeLog.Model
         public Log()
         {
             Days = new List<Day>();
-            try
-            {
-                _dayLength = Convert.ToDouble(ConfigurationManager.AppSettings["dayLength"]);
-            }
-            catch (Exception)
-            {
-                _dayLength = 8;
-            }
+            // try
+            // {
+            //     _dayLength = Convert.ToDouble(ConfigurationManager.AppSettings["dayLength"]);
+            // }
+            // catch (Exception)
+            // {
+            //     _dayLength = 8;
+            // }
         }
 
         public string GetStatistics(DateTime forDate)

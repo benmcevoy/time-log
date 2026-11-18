@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 
 namespace TimeLog.Lexer.Matcher
@@ -11,8 +10,8 @@ namespace TimeLog.Lexer.Matcher
 
             var match = _dateLine.Match(value);
 
-            if (!match.Success) return null;
-            if (!DateTime.TryParse(value.Trim(), out result)) return null;
+            if (!match.Success) return Token.Unknown;
+            if (!DateTime.TryParse(value.Trim(), out result)) return Token.Unknown;
             
             return new Token(TokenType.Date, lineNumber, startPosition, value.Length, result);
         }

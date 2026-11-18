@@ -1,0 +1,115 @@
+﻿<Window x:Class="TimeLog.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:f="clr-namespace:TimeLog"
+    xmlns:vm="using:TimeLog"
+    x:DataType="vm:MainViewModel"
+    TextElement.FontFamily="FreeMono"
+    Icon="resm:TimeLog.Windows_TimeLog_Icon.ico"
+    Title="Time Log" Height="840" Width="1080">
+    <Window.KeyBindings>
+        <KeyBinding Command="{Binding NextDayCommand}" Gesture="ALT+RIGHT" />
+        <KeyBinding Command="{Binding PreviousDayCommand}" Gesture="ALT+LEFT" />
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="CTRL+S" />
+        <KeyBinding Command="{Binding SyncCommand}" Gesture="F12" />
+        <KeyBinding Command="{Binding FindNext}" Gesture="F3" />
+        <KeyBinding Command="{Binding FindPrevious}" Gesture="SHIFT+F3" />
+        <KeyBinding Command="{Binding Find}" Gesture="CTRL+F" />
+        <KeyBinding Command="{Binding Goto}" Gesture="CTRL+G" />
+        <KeyBinding Command="{Binding InsertCommand}" Gesture="F5" />
+        <KeyBinding Command="{Binding ShowContextMenu}" Gesture="CTRL+Space" />
+    </Window.KeyBindings>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="22" />
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="tb" Grid.Column="0" Text="{Binding Text}"
+            AcceptsReturn="True" AcceptsTab="True"
+        >
+            <!-- TODO: show line number down the side -->
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding Cut}" Header="Cut" />
+                    <MenuItem Command="{Binding Copy}" Header="Copy" />
+                    <MenuItem Command="{Binding Paste}" Header="Paste" />
+                    <MenuItem Header="Format">
+                        <MenuItem Command="{Binding FormatSelectionBase64Decode}"
+                            Header="Base64 decode" />
+                        <MenuItem Command="{Binding FormatSelectionBase64Encode}"
+                            Header="Base64 encode" />
+                        <MenuItem Command="{Binding FormatSelectionDecodeUrl}" Header="Url decode" />
+                        <MenuItem Command="{Binding FormatSelectionEncodeUrl}" Header="Url encode" />
+                        <MenuItem Command="{Binding FormatSelectionToLower}" Header="To lower" />
+                        <MenuItem Command="{Binding FormatSelectionToUpper}" Header="To upper" />
+                    </MenuItem>
+
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+
+        <GridSplitter
+            ResizeDirection="Columns"
+            Grid.Column="1"
+            Width="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="0" />
+
+        <Grid Grid.Column="2" Grid.RowSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Sync" Click="SyncButton_Click" />
+                <Button Grid.Column="1" Content="&lt;" Command="{Binding PreviousDayCommand}" />
+                <DatePicker HorizontalAlignment="Stretch" Grid.Column="2"
+                    SelectedDate="{Binding SelectedDate}" />
+                <Button Grid.Column="3" Content="&gt;" Command="{Binding NextDayCommand}" />
+            </Grid>
+
+            <TextBox IsReadOnly="True" Grid.Row="1" x:Name="stats"
+                Text="{Binding Statistics, Mode=OneWay}" />
+        </Grid>
+
+        <GridSplitter
+            ResizeDirection="Rows"
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="0" />
+
+        <TextBox x:Name="TodoTextBox" Grid.Row="2" Text="{Binding ToDo}"
+            AcceptsReturn="True" AcceptsTab="True" />
+
+        <!-- Status bar -->
+        <Grid ColumnDefinitions="*,Auto" Grid.Row="3" Grid.ColumnSpan="3">
+            <TextBlock Grid.Column="0" Margin="5,2,5,2"
+                Text="{Binding RemainToday, StringFormat=Remain today: {0} hours, Mode=OneWay}" />
+            <TextBlock Grid.Column="1" Text="{Binding Status, Mode=OneWay}" Margin="5,2,5,2" />
+        </Grid>
+
+    </Grid>
+</Window>
+
+    

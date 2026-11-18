@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TimeLog.Model;
+﻿using TimeLog.Model;
 
 namespace TimeLog.Parser
 {

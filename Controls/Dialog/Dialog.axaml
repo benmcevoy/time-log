@@ -1,0 +1,30 @@
+﻿<Window x:Class="TimeLog.Controls.Dialog.Dialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="160" Width="320" 
+        BorderThickness="1"
+        WindowStartupLocation="CenterOwner" 
+        CanResize="False" 
+        SizeToContent="WidthAndHeight" 
+        ShowInTaskbar="False" 
+        Closing="Window_OnClosing"
+        >
+    <DockPanel LastChildFill="False">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="6">
+            <StackPanel Orientation="Horizontal">
+                <Image Name="DialogIcon" IsVisible="False" Height="32" Width="32" Stretch="Fill"/>
+                <TextBlock Name="Message" Text="Message here" FontSize="16" Padding="10,10,0,0" TextWrapping="Wrap" />
+            </StackPanel>
+            <TextBox Name="PromptValue" IsVisible="False" HorizontalContentAlignment="Stretch" Margin="6" FontSize="14" KeyDown="Value_OnKeyDown" />
+        </StackPanel>
+
+        <Grid Height="40"  DockPanel.Dock="Bottom" ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto"  >
+            <Button Grid.Column="1" Name="OK" Content="OK" Click="SetResult" Tag="OK" Margin="5"/>
+            <Button Grid.Column="2" Name="Yes" Content="Yes" Click="SetResult" Tag="Yes" Margin="5"/>
+            <Button Grid.Column="3" Name="Save" Content="Save" Click="SetResult" Tag="Yes" Margin="5"/>
+            <Button Grid.Column="4" Name="DontSave" Content="Don't Save" Click="SetResult" Tag="No" Margin="5" />
+            <Button Grid.Column="5" Name="No" Content="No" Click="SetResult" Tag="No" Margin="5"/>
+            <Button Grid.Column="6" Name="Cancel" Content="Cancel" IsCancel="True" Click="SetResult" Tag="Cancel" Margin="5"/>
+        </Grid>
+    </DockPanel>
+</Window>
